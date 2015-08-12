@@ -2,7 +2,7 @@
 # We can use it to manipulate the data
 
 require './app/data_mapper_setup'
-require_relative '../../app/models/link.rb'
+
 
 
 class Link
@@ -14,5 +14,6 @@ class Link
   property :id,     Serial # Serial means that it will be auto-incremented for every record
   property :title,  String
   property :url,    String
+  has n, :tags, through: Resource
 
 end
