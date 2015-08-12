@@ -1,9 +1,3 @@
-# This class corresponds to a table in the database
-# We can use it to manipulate the data
-
-require './app/data_mapper_setup'
-
-
 
 class Link
 
