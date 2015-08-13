@@ -46,7 +46,7 @@ class App < Sinatra::Base
     if @user.save
       session[:user_id] = @user.id
       redirect to('/links')
-    elsif @user.email == "" || /\s/
+    elsif @user.email =~ /\s/ || @user.email == ""
       redirect to('/users/new')
     else
       flash.now[:notice] = 'Password and confirmation password do not match'
