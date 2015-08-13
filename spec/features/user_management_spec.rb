@@ -22,6 +22,16 @@ feature 'User sign up' do
     expect(current_path).to eq '/users'
     expect(page).to have_content 'Password and confirmation password do not match'
   end
+
+  scenario 'without an email' do
+    visit '/users/new'
+    fill_in :password, with: '123456'
+    fill_in :password_confirmation, with: '123456'
+    click_button 'Sign up'
+    expect(User.count).to eq 0
+    expect(current_path).to eq '/users/new'
+  end
+
 end
 
 def sign_up(email: 'alice@example.com', password: '12345678',  password_confirmation: '12345678') # <--helper method!
