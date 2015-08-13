@@ -32,6 +32,14 @@ feature 'User sign up' do
     expect { sign_up(user_no_email) }.to_not change(User, :count)
     expect(current_path).to eq '/users/new'
   end
+
+  scenario 'I cannot sign up with an existing email' do
+    user = create :user
+    sign_up(user)
+    expect { sign_up(user) }.to change(User, :count).by(0)
+    expect(page).to have_content('Email is already taken')
+  end
+
 end
 
 def sign_up(user) # <--helper method!

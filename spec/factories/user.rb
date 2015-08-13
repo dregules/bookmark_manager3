@@ -2,8 +2,10 @@
 FactoryGirl.define do
 
   factory :user do
-    email 'example@gmail.com'
+    #sequence(:email)  { |n| "example-#{n}}@random.com" }
+    #email {Faker::Internet.safe_email}
     #username 'example'
+    email 'example@gmail.com'
     password '12345'
     password_confirmation '12345'
   end
