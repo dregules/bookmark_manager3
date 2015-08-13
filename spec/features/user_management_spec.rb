@@ -10,7 +10,7 @@ feature 'User sign up' do
   # feature tests and we want to keep this example simple.
 
   scenario 'I can sign up as new user' do
-    user = create :user
+    user = build :user
     expect { sign_up(user) }.to change(User, :count).by(1)
     expect(page).to have_content("Welcome, #{user.email}")
     expect(User.first.email).to eq user.email
