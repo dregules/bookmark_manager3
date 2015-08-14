@@ -3,11 +3,20 @@ require_relative 'data_mapper_setup'
 require_relative 'models/link'
 require 'sinatra/flash'
 
+
 class App < Sinatra::Base
 
   register Sinatra::Flash
   enable :sessions
   set :session_secret, 'super secret'  # makes session play nicely with shotgun
+  use Rack::MethodOverride
+
+  helpers do 
+    def current_user
+      @current_user ||= User.get(session[:user_id])
+      # N.b: .get is a finder method of datamapper!
+    end
+  end
 
   get '/' do
     redirect('/links')
@@ -56,7 +65,6 @@ class App < Sinatra::Base
 
   post '/sessions' do
     user = User.authenticate(params[:email], params[:password])
-
     if user
       session[:user_id] = user.id
       redirect '/links'
@@ -64,18 +72,15 @@ class App < Sinatra::Base
       flash[:errors] = ['Password and/or email incorrect']
       erb :'sessions/new'
     end
-
   end
+
   get '/sessions/new' do
     erb :'sessions/new'
   end
 
-
-  helpers do
-    def current_user
-      @current_user ||= User.get(session[:user_id])
-      # N.b: .get is a finder method of datamapper!
-    end
+  delete '/sessions' do
+    session[:user_id] = nil
+    flash[:ciao] = 'goodbye!'
   end
 
   # start the server if ruby file executed directly
