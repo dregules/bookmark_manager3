@@ -1,3 +1,6 @@
+require 'sinatra'
+require 'sinatra/flash'
+
 module BookmarkManager
   module Routes
     class Base < Sinatra::Base
@@ -13,7 +16,7 @@ module BookmarkManager
           # N.b: .get is a finder method of datamapper!
         end
       end
-
+      run! if app_file == $0
     end
   end
 end
