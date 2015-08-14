@@ -1,3 +1,4 @@
+require './app/app.rb'
 require './app/models/link.rb'
 require './app/models/tag.rb'
 require 'byebug'

@@ -11,7 +11,7 @@ require './app/app'
 require 'database_cleaner'
 require 'factory_girl'
 
-Capybara.app = App
+Capybara.app = BookmarkManager::App
 
 RSpec.configure do |config|
 
