@@ -23,7 +23,7 @@ feature 'User sign up' do
     user = create(:user, password_confirmation: 'wrong')
     expect { sign_up(user) }.not_to change(User, :count)
     expect(current_path).to eq '/users'
-    expect(page).to have_content 'Password and confirmation password do not match'
+    expect(page).to have_content 'Password does not match the confirmation'
   end
 
 
