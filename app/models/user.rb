@@ -4,6 +4,9 @@ require 'bcrypt'
 class User
   include DataMapper::Resource
 
+  validates_confirmation_of :password
+  validates_uniqueness_of :email
+
   attr_reader :password
   attr_accessor :password_confirmation
   # validates_confirmation_of is a DataMapper method
@@ -32,7 +35,13 @@ class User
     self.password_digest = BCrypt::Password.create(password)
   end
 
-  validates_confirmation_of :password
-  validates_uniqueness_of :email
-
+  def self.authenticate(email, password)
+    user = User.first(email: email)
+    #BCrypt::Password.authenticate(self.password_digest)
+    if user && BCrypt::Password.new(user.password_digest) == password
+      user
+    else
+      nil
+    end
+  end
 end

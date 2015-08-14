@@ -26,7 +26,6 @@ feature 'User sign up' do
     expect(page).to have_content 'Password does not match the confirmation'
   end
 
-
   scenario 'without an email' do
     user_no_email = create(:user, email: "")
     expect { sign_up(user_no_email) }.to_not change(User, :count)
@@ -39,22 +38,22 @@ feature 'User sign up' do
     expect { sign_up(user) }.to change(User, :count).by(0)
     expect(page).to have_content('Email is already taken')
   end
-
 end
 
 feature 'User sign in' do
 
   scenario 'with correct credentials' do
    user = create(:user)
+   sign_up(user)
    sign_in(user)
-   expect(page).to have_content "Welcome, #{user.email}"
+   expect(page).to have_content("Welcome, #{user.email}")
   end
 end
 
 def sign_in(user)
    visit '/sessions/new'
-   fill_in 'email', with: user.email
-   fill_in 'password', with: user.password
+   fill_in :email, with: user.email
+   fill_in :password, with: user.password
    click_button 'Sign In'
 end
 
